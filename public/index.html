@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diário Escolar - Painel do Professor</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo">
+                <i data-lucide="graduation-cap"></i>
+                <span>Diário Escolar</span>
+            </div>
+            <nav>
+                <a href="#" class="active"><i data-lucide="layout-dashboard"></i> Painel</a>
+                <a href="#"><i data-lucide="users"></i> Turmas e Alunos</a>
+                <a href="#"><i data-lucide="clipboard-check"></i> Frequência</a>
+                <a href="#"><i data-lucide="bar-chart-3"></i> Relatórios</a>
+                <a href="#"><i data-lucide="settings"></i> Configurações</a>
+                <a href="#" id="logoutBtn" style="margin-top: auto; color: #ef4444;"><i data-lucide="log-out"></i> Sair</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header>
+                <div class="search-bar">
+                    <i data-lucide="search"></i>
+                    <input type="text" placeholder="Buscar aluno ou turma...">
+                </div>
+                <div class="user-profile">
+                    <span class="date-now" id="currentDate"></span>
+                    <div class="avatar">P</div>
+                </div>
+            </header>
+
+            <section class="dashboard-header">
+                <h1>Painel do Professor</h1>
+                <p>Gerencie suas turmas e registros de aula com facilidade.</p>
+                <button class="btn-primary" id="openModal">
+                    <i data-lucide="plus-circle"></i> Registrar Nova Aula
+                </button>
+            </section>
+
+            <section class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon students-count"><i data-lucide="user-check"></i></div>
+                    <div class="stat-info">
+                        <h3>Total de Alunos</h3>
+                        <p id="totalStudents">0</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon classes-count"><i data-lucide="school"></i></div>
+                    <div class="stat-info">
+                        <h3>Turmas Ativas</h3>
+                        <p id="totalClasses">0</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon lessons-count"><i data-lucide="book-open"></i></div>
+                    <div class="stat-info">
+                        <h3>Aulas Registradas</h3>
+                        <p id="totalLessons">0</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="recent-entries">
+                <div class="section-title">
+                    <h2>Últimos Registros de Aula</h2>
+                    <a href="#">Ver Todos</a>
+                </div>
+                <div class="entries-grid" id="lessonsGrid">
+                    <!-- Lessons will be loaded here via JS -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal for New Lesson Record -->
+    <div class="modal" id="entryModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Registrar Aula e Frequência</h2>
+                <button class="close-btn" id="closeModal">&times;</button>
+            </div>
+            <form id="lessonForm">
+                <div class="form-group">
+                    <label for="classSelect">Selecione a Turma</label>
+                    <select id="classSelect" required>
+                        <option value="">Selecione...</option>
+                        <!-- Classes will be loaded here -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="contentInput">Conteúdo Ministrado</label>
+                    <textarea id="contentInput" placeholder="Ex: Introdução à Trigonometria" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="objectivesInput">Objetivos (Opcional)</label>
+                    <input type="text" id="objectivesInput" placeholder="Ex: Compreender o Teorema de Pitágoras">
+                </div>
+                
+                <div class="attendance-section">
+                    <h3>Chamada (Frequência)</h3>
+                    <div id="studentList" class="student-attendance-list">
+                        <p class="empty-state">Selecione uma turma para ver os alunos.</p>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit">Salvar Registro de Aula</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        lucide.createIcons();
+        document.getElementById('currentDate').textContent = new Date().toLocaleDateString('pt-BR', {
+            day: 'numeric', month: 'long', year: 'numeric'
+        });
+    </script>
+</body>
+</html>

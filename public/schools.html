@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diário Escolar - Gerenciar Unidades</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo">
+                <i data-lucide="graduation-cap"></i>
+                <span>Diário Escolar</span>
+            </div>
+            <nav id="sidebarNav">
+                <a href="index.html"><i data-lucide="layout-dashboard"></i> Painel</a>
+                <a href="schools.html" class="active"><i data-lucide="school"></i> Gerenciar Escolas</a>
+                <a href="coordinators.html"><i data-lucide="users"></i> Gerenciar Coordenadores</a>
+                <a href="#" id="logoutBtn" style="margin-top: auto; color: #ef4444;"><i data-lucide="log-out"></i> Sair</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header>
+                <div class="search-bar">
+                    <i data-lucide="search"></i>
+                    <input type="text" placeholder="Buscar unidade...">
+                </div>
+                <div class="user-profile">
+                    <span class="user-name" id="userNameHeader">CEO</span>
+                    <div class="avatar">C</div>
+                </div>
+            </header>
+
+            <section class="dashboard-header">
+                <h1>Gerenciar Unidades Escolares</h1>
+                <p>Cadastre novas escolas e visualize as unidades existentes.</p>
+                <button class="btn-primary" id="openModal">
+                    <i data-lucide="plus-circle"></i> Cadastrar Nova Escola
+                </button>
+            </section>
+
+            <section class="recent-entries">
+                <div class="section-title">
+                    <h2>Escolas Cadastradas</h2>
+                </div>
+                <div class="entries-grid" id="unidadesGrid">
+                    <!-- Unidades will be loaded here -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal for New School Registration -->
+    <div class="modal" id="entryModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Cadastrar Unidade</h2>
+                <button class="close-btn" id="closeModal">&times;</button>
+            </div>
+            <form id="unidadeForm">
+                <div class="form-group">
+                    <label for="escolaInput">Nome da Escola</label>
+                    <input type="text" id="escolaInput" placeholder="Ex: Escola Estadual Machado de Assis" required>
+                </div>
+                <div class="form-group">
+                    <label for="paisInput">País</label>
+                    <input type="text" id="paisInput" value="Brasil" required>
+                </div>
+                <div class="form-group">
+                    <label for="estadoInput">Estado</label>
+                    <input type="text" id="estadoInput" placeholder="Ex: SP" required>
+                </div>
+                <div class="form-group">
+                    <label for="cidadeInput">Cidade</label>
+                    <input type="text" id="cidadeInput" placeholder="Ex: São Paulo" required>
+                </div>
+                
+                <button type="submit" class="btn-submit">Registrar Unidade</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="schools.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

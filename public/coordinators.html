@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diário Escolar - Gerenciar Coordenadores</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo">
+                <i data-lucide="graduation-cap"></i>
+                <span>Diário Escolar</span>
+            </div>
+            <nav id="sidebarNav">
+                <a href="index.html"><i data-lucide="layout-dashboard"></i> Painel</a>
+                <a href="schools.html"><i data-lucide="school"></i> Gerenciar Escolas</a>
+                <a href="coordinators.html" class="active"><i data-lucide="users"></i> Gerenciar Coordenadores</a>
+                <a href="#" id="logoutBtn" style="margin-top: auto; color: #ef4444;"><i data-lucide="log-out"></i> Sair</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header>
+                <div class="search-bar">
+                    <i data-lucide="search"></i>
+                    <input type="text" placeholder="Buscar coordenador...">
+                </div>
+                <div class="user-profile">
+                    <span class="user-name" id="userNameHeader">CEO</span>
+                    <div class="avatar">C</div>
+                </div>
+            </header>
+
+            <section class="dashboard-header">
+                <h1>Gerenciar Coordenadores</h1>
+                <p>Cadastre novos coordenadores e vincule-os às unidades escolares.</p>
+                <button class="btn-primary" id="openModal">
+                    <i data-lucide="plus-circle"></i> Cadastrar Coordenador
+                </button>
+            </section>
+
+            <section class="recent-entries">
+                <div class="section-title">
+                    <h2>Coordenadores Cadastrados</h2>
+                </div>
+                <div class="entries-grid" id="coordinatorsGrid">
+                    <!-- Coordinators will be loaded here -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal for New Coordinator Registration -->
+    <div class="modal" id="entryModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Cadastrar Coordenador</h2>
+                <button class="close-btn" id="closeModal">&times;</button>
+            </div>
+            <form id="coordinatorForm">
+                <div class="form-group">
+                    <label for="nameInput">Nome do Coordenador</label>
+                    <input type="text" id="nameInput" placeholder="Ex: João da Silva" required>
+                </div>
+                <div class="form-group">
+                    <label for="emailInput">E-mail</label>
+                    <input type="email" id="emailInput" placeholder="Ex: joao@escola.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="passwordInput">Senha</label>
+                    <input type="password" id="passwordInput" placeholder="Sua senha" required>
+                </div>
+                <div class="form-group">
+                    <label>Vincular às Unidades</label>
+                    <div id="unitsCheckboxList" class="checkbox-group-scrollable">
+                        <!-- Units will be loaded here as checkboxes -->
+                        <p class="empty-state">Carregando unidades...</p>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn-submit">Registrar Coordenador</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="coordinators.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
