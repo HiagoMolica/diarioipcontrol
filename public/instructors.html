@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diário Escolar - Gerenciar Coordenadores</title>
+    <title>Diário Escolar - Gerenciar Instrutores</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,8 +19,7 @@
             </div>
             <nav id="sidebarNav">
                 <a href="index.html"><i data-lucide="layout-dashboard"></i> Painel</a>
-                <a href="schools.html"><i data-lucide="school"></i> Gerenciar Escolas</a>
-                <a href="coordinators.html" class="active"><i data-lucide="users"></i> Gerenciar Coordenadores</a>
+                <a href="instructors.html" class="active"><i data-lucide="users"></i> Gerenciar Instrutores</a>
                 <a href="#" id="logoutBtn" style="margin-top: auto; color: #ef4444;"><i data-lucide="log-out"></i> Sair</a>
             </nav>
         </aside>
@@ -29,48 +28,48 @@
             <header>
                 <div class="search-bar">
                     <i data-lucide="search"></i>
-                    <input type="text" placeholder="Buscar coordenador...">
+                    <input type="text" placeholder="Buscar instrutor...">
                 </div>
                 <div class="user-profile">
-                    <span class="user-name" id="userNameHeader">CEO</span>
+                    <span class="user-name" id="userNameHeader">Coordenador</span>
                     <div class="avatar">C</div>
                 </div>
             </header>
 
             <section class="dashboard-header">
-                <h1>Gerenciar Coordenadores</h1>
-                <p>Cadastre novos coordenadores e vincule-os às unidades escolares.</p>
+                <h1>Gerenciar Instrutores</h1>
+                <p>Cadastre novos instrutores e vincule-os às suas unidades escolares.</p>
                 <button class="btn-primary" id="openModal">
-                    <i data-lucide="plus-circle"></i> Cadastrar Coordenador
+                    <i data-lucide="plus-circle"></i> Cadastrar Instrutor
                 </button>
             </section>
 
             <section class="recent-entries">
                 <div class="section-title">
-                    <h2>Coordenadores Cadastrados</h2>
+                    <h2>Instrutores Cadastrados</h2>
                 </div>
-                <div class="entries-grid" id="coordinatorsGrid">
-                    <!-- Coordinators will be loaded here -->
+                <div class="entries-grid" id="instructorsGrid">
+                    <!-- Instructors will be loaded here -->
                 </div>
             </section>
         </main>
     </div>
 
-    <!-- Modal for New Coordinator Registration -->
+    <!-- Modal for Instructor Registration -->
     <div class="modal" id="entryModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 id="modalTitle">Cadastrar Coordenador</h2>
+                <h2 id="modalTitle">Cadastrar Instrutor</h2>
                 <button class="close-btn" id="closeModal">&times;</button>
             </div>
-            <form id="coordinatorForm">
+            <form id="instructorForm">
                 <div class="form-group">
-                    <label for="nameInput">Nome do Coordenador</label>
-                    <input type="text" id="nameInput" placeholder="Ex: João da Silva" required>
+                    <label for="nameInput">Nome do Instrutor</label>
+                    <input type="text" id="nameInput" placeholder="Ex: Pedro Santos" required>
                 </div>
                 <div class="form-group">
                     <label for="emailInput">E-mail</label>
-                    <input type="email" id="emailInput" placeholder="Ex: joao@escola.com" required>
+                    <input type="email" id="emailInput" placeholder="Ex: pedro@escola.com" required>
                 </div>
                 <div class="form-group">
                     <label for="passwordInput">Senha</label>
@@ -84,12 +83,12 @@
                     </div>
                 </div>
                 
-                <button type="submit" class="btn-submit" id="submitBtn">Registrar Coordenador</button>
+                <button type="submit" class="btn-submit" id="submitBtn">Registrar Instrutor</button>
             </form>
         </div>
     </div>
 
-    <script src="coordinators.js"></script>
+    <script src="instructors.js"></script>
     <script>
         lucide.createIcons();
     </script>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diário Escolar - Lançar Diário</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo">
+                <i data-lucide="graduation-cap"></i>
+                <span>Diário Escolar</span>
+            </div>
+            <nav id="sidebarNav">
+                <a href="index.html"><i data-lucide="layout-dashboard"></i> Painel</a>
+                <a href="diary.html" class="active"><i data-lucide="book-open"></i> Lançar Diário</a>
+                <a href="management.html"><i data-lucide="users"></i> Gerenciar Turmas</a>
+                <a href="#" id="logoutBtn" style="margin-top: auto; color: #ef4444;"><i data-lucide="log-out"></i> Sair</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header>
+                <div class="search-bar">
+                    <i data-lucide="search"></i>
+                    <input type="text" id="searchInput" placeholder="Buscar...">
+                </div>
+                <div class="user-profile">
+                    <span class="user-name" id="userNameHeader">Instrutor</span>
+                    <div class="avatar">I</div>
+                </div>
+            </header>
+
+            <section class="dashboard-header">
+                <h1>Lançar Diário</h1>
+                <p>Registre a aula, presença e notas dos alunos.</p>
+            </section>
+
+            <form id="diaryForm" class="diary-container" style="background: white; padding: 2rem; border-radius: 1rem; box-shadow: var(--shadow);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                    <h2 id="formTitle">Novo Diário</h2>
+                    <button type="button" id="cancelEditBtn" class="btn-icon" style="display: none; background: #fee2e2; color: #ef4444; border: none; padding: 0.5rem; border-radius: 0.5rem; cursor: pointer;">
+                        Cancelar Edição
+                    </button>
+                </div>
+                
+                <div class="form-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                    <div class="form-group">
+                        <label for="classSelect">Turma</label>
+                        <select id="classSelect" required>
+                            <option value="">Selecione...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="dateInput">Data</label>
+                        <input type="date" id="dateInput" required>
+                    </div>
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label for="titleInput">Título da Aula</label>
+                        <input type="text" id="titleInput" placeholder="Ex: Introdução à Álgebra" required>
+                    </div>
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label for="contentInput">Conteúdo / Descrição</label>
+                        <textarea id="contentInput" rows="3"></textarea>
+                    </div>
+                </div>
+
+                <div id="studentListSection" style="display: none;">
+                    <h3>Lista de Alunos</h3>
+                    <div class="table-header" style="display: grid; grid-template-columns: 2fr 1fr 1fr; padding: 1rem; background: #f8fafc; border-radius: 0.5rem; margin-bottom: 1rem; font-weight: 600;">
+                        <span>Nome</span>
+                        <span>Presença</span>
+                        <span>Nota (0-10)</span>
+                    </div>
+                    <div id="studentsList" class="entries-list">
+                        <!-- Students rendered here -->
+                    </div>
+                </div>
+
+                <div class="form-actions" style="margin-top: 2rem; display: flex; justify-content: flex-end;">
+                    <button type="submit" class="btn-primary" id="saveDiaryBtn">
+                        <i data-lucide="save"></i> Salvar Diário
+                    </button>
+                </div>
+            </form>
+
+            <section id="diaryHistorySection" style="margin-top: 3rem;">
+                <h2>Diários Lançados</h2>
+                <div class="filters" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1rem; margin-bottom: 2rem;">
+                    <div class="form-group">
+                        <label for="historyClassSelect">Filtrar por Turma</label>
+                        <select id="historyClassSelect">
+                            <option value="">Selecione a Turma...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="historyDateSelect">Selecione a Data/Aula</label>
+                        <select id="historyDateSelect" disabled>
+                            <option value="">Selecione uma turma primeiro</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="diary.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

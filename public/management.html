@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diário Escolar - Gerenciar Turmas e Alunos</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo">
+                <i data-lucide="graduation-cap"></i>
+                <span>Diário Escolar</span>
+            </div>
+            <nav id="sidebarNav">
+                <a href="index.html"><i data-lucide="layout-dashboard"></i> Painel</a>
+                <a href="diary.html"><i data-lucide="book-open"></i> Lançar Diário</a>
+                <a href="management.html" class="active"><i data-lucide="users"></i> Gerenciar Turmas</a>
+                <a href="#" id="logoutBtn" style="margin-top: auto; color: #ef4444;"><i data-lucide="log-out"></i> Sair</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header>
+                <div class="search-bar">
+                    <i data-lucide="search"></i>
+                    <input type="text" id="searchInput" placeholder="Buscar...">
+                </div>
+                <div class="user-profile">
+                    <span class="user-name" id="userNameHeader">Instrutor</span>
+                    <div class="avatar">I</div>
+                </div>
+            </header>
+
+            <section class="dashboard-header">
+                <h1>Gerenciar Turmas e Alunos</h1>
+                <p>Cadastre suas turmas e os alunos vinculados a elas.</p>
+                <div class="header-actions" style="display: flex; gap: 1rem; margin-top: 1rem;">
+                    <button class="btn-primary" id="openClassModal">
+                        <i data-lucide="plus-circle"></i> Nova Turma
+                    </button>
+                </div>
+            </section>
+
+            <section id="classesListSection">
+                <div class="entries-list" id="classesGrid">
+                    <!-- Classes will be loaded here -->
+                </div>
+            </section>
+
+            <section id="classDetailSection" style="display: none;">
+                <div class="detail-header" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem;">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <button class="btn-icon" id="backToClassesBtn" style="background: none; border: none; cursor: pointer; color: var(--primary);">
+                            <i data-lucide="arrow-left" style="width: 24px; height: 24px;"></i>
+                        </button>
+                        <div>
+                            <h2 id="detailClassName" style="margin: 0;">Nome da Turma</h2>
+                            <p id="detailClassGrade" style="margin: 0; color: var(--text-light);">Série</p>
+                        </div>
+                    </div>
+                    <button class="btn-primary" id="btnOpenStudentModal" style="background: var(--secondary);">
+                        <i data-lucide="plus-circle"></i> Novo Aluno
+                    </button>
+                </div>
+
+                <h3>Alunos</h3>
+                <div class="entries-list" id="studentsGrid">
+                    <!-- Students will be loaded here -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal for Class -->
+    <div class="modal" id="classModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="classModalTitle">Nova Turma</h2>
+                <button class="close-btn" id="closeClassModal">&times;</button>
+            </div>
+            <form id="classForm">
+                <div class="form-group">
+                    <label for="classNameInput">Nome da Turma</label>
+                    <input type="text" id="classNameInput" placeholder="Ex: 9º A" required>
+                </div>
+                <div class="form-group">
+                    <label for="classGradeInput">Ano</label>
+                    <input type="text" id="classGradeInput" placeholder="Ex: 1°" required>
+                </div>
+                <div class="form-group">
+                    <label for="unitSelect">Unidade</label>
+                    <select id="unitSelect" required>
+                        <option value="">Selecione...</option>
+                        <!-- Available units for user -->
+                    </select>
+                </div>
+                <button type="submit" class="btn-submit" id="classSubmitBtn">Salvar Turma</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for Student -->
+    <div class="modal" id="studentModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="studentModalTitle">Novo Aluno</h2>
+                <button class="close-btn" id="closeStudentModal">&times;</button>
+            </div>
+            <form id="studentForm">
+                <div class="form-group">
+                    <label for="studentNameInput">Nome Completo</label>
+                    <input type="text" id="studentNameInput" placeholder="Ex: Alice Rocha" required>
+                </div>
+                <div class="form-group">
+                    <label for="studentClassSelect">Turma</label>
+                    <select id="studentClassSelect" required>
+                        <option value="">Selecione a turma...</option>
+                        <!-- Available classes for user -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="studentDobInput">Data de Nascimento</label>
+                    <input type="date" id="studentDobInput">
+                </div>
+                <div class="form-group">
+                    <label for="studentParentInput">Nome do Responsável</label>
+                    <input type="text" id="studentParentInput" placeholder="Ex: Maria Rocha">
+                </div>
+                <div class="form-group">
+                    <label for="studentContactInput">Contato do Responsável</label>
+                    <input type="text" id="studentContactInput" placeholder="Ex: (11) 99999-9999">
+                </div>
+                <button type="submit" class="btn-submit" id="studentSubmitBtn">Salvar Aluno</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" id="transferStudentModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Transferir Aluno</h2>
+                <button class="close-btn" onclick="document.getElementById('transferStudentModal').classList.remove('active')">&times;</button>
+            </div>
+            <p id="transferStudentNameDisplay" style="margin-bottom: 1rem; color: var(--text-muted); padding: 0 1.5rem;"></p>
+            <form id="transferStudentForm" style="padding: 1.5rem;">
+                <input type="hidden" id="transferStudentId">
+                <input type="hidden" id="transferStudentName">
+                <input type="hidden" id="transferStudentDob">
+                <input type="hidden" id="transferStudentParent">
+                <input type="hidden" id="transferStudentContact">
+                <div class="form-group">
+                    <label for="transferClassSelect">Nova Turma de Destino</label>
+                    <select id="transferClassSelect" required style="width: 100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 0.375rem;">
+                        <option value="">Carregando turmas...</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-submit" style="width: 100%;">Confirmar Transferência</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="management.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

@@ -17,21 +17,19 @@
                 <i data-lucide="graduation-cap"></i>
                 <span>Diário Escolar</span>
             </div>
-            <nav>
-                <a href="#" class="active"><i data-lucide="layout-dashboard"></i> Painel</a>
-                <a href="#"><i data-lucide="users"></i> Turmas e Alunos</a>
-                <a href="#"><i data-lucide="clipboard-check"></i> Frequência</a>
-                <a href="#"><i data-lucide="bar-chart-3"></i> Relatórios</a>
-                <a href="#"><i data-lucide="settings"></i> Configurações</a>
+            <nav id="sidebarNav">
+                <a href="index.html" class="active"><i data-lucide="layout-dashboard"></i> Painel</a>
+                <a href="diary.html"><i data-lucide="book-open"></i> Lançar Diário</a>
+                <a href="management.html"><i data-lucide="users"></i> Gerenciar Turmas</a>
                 <a href="#" id="logoutBtn" style="margin-top: auto; color: #ef4444;"><i data-lucide="log-out"></i> Sair</a>
             </nav>
         </aside>
 
         <main class="main-content">
             <header>
-                <div class="search-bar">
-                    <i data-lucide="search"></i>
-                    <input type="text" placeholder="Buscar aluno ou turma...">
+                <div>
+                    <h1 id="welcomeTitle" style="font-size: 1.5rem; margin-bottom: 0.25rem;">Painel do Professor</h1>
+                    <p style="color: var(--text-muted); margin: 0;">Gerencie suas turmas e registros de aula com facilidade.</p>
                 </div>
                 <div class="user-profile">
                     <span class="date-now" id="currentDate"></span>
@@ -39,13 +37,6 @@
                 </div>
             </header>
 
-            <section class="dashboard-header">
-                <h1>Painel do Professor</h1>
-                <p>Gerencie suas turmas e registros de aula com facilidade.</p>
-                <button class="btn-primary" id="openModal">
-                    <i data-lucide="plus-circle"></i> Registrar Nova Aula
-                </button>
-            </section>
 
             <section class="stats-grid">
                 <div class="stat-card">
@@ -83,41 +74,6 @@
         </main>
     </div>
 
-    <!-- Modal for New Lesson Record -->
-    <div class="modal" id="entryModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Registrar Aula e Frequência</h2>
-                <button class="close-btn" id="closeModal">&times;</button>
-            </div>
-            <form id="lessonForm">
-                <div class="form-group">
-                    <label for="classSelect">Selecione a Turma</label>
-                    <select id="classSelect" required>
-                        <option value="">Selecione...</option>
-                        <!-- Classes will be loaded here -->
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="contentInput">Conteúdo Ministrado</label>
-                    <textarea id="contentInput" placeholder="Ex: Introdução à Trigonometria" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="objectivesInput">Objetivos (Opcional)</label>
-                    <input type="text" id="objectivesInput" placeholder="Ex: Compreender o Teorema de Pitágoras">
-                </div>
-                
-                <div class="attendance-section">
-                    <h3>Chamada (Frequência)</h3>
-                    <div id="studentList" class="student-attendance-list">
-                        <p class="empty-state">Selecione uma turma para ver os alunos.</p>
-                    </div>
-                </div>
-
-                <button type="submit" class="btn-submit">Salvar Registro de Aula</button>
-            </form>
-        </div>
-    </div>
 
     <script src="app.js"></script>
     <script>

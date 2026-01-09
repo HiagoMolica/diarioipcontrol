@@ -1,30 +1,29 @@
 document.addEventListener('DOMContentLoaded', () => {
     const user = JSON.parse(localStorage.getItem('user'));
-    if (!user || user.role !== 'ceo') {
+    if (!user || user.role !== 'coordenador') {
         window.location.href = 'index.html';
         return;
     }
 
     document.getElementById('userNameHeader').textContent = user.name || user.username;
 
-    loadCoordinators();
-    // Modal logic
+    loadInstructors();
+
     const modal = document.getElementById('entryModal');
     const btn = document.getElementById('openModal');
     const closeModal = document.getElementById('closeModal');
-
-    // Form logic
-    const form = document.getElementById('coordinatorForm');
+    const form = document.getElementById('instructorForm');
     let editingId = null;
 
     btn.onclick = () => {
         editingId = null;
-        document.getElementById('modalTitle').textContent = 'Cadastrar Coordenador';
-        document.getElementById('submitBtn').textContent = 'Registrar Coordenador';
+        document.getElementById('modalTitle').textContent = 'Cadastrar Instrutor';
+        document.getElementById('submitBtn').textContent = 'Registrar Instrutor';
         document.getElementById('passwordInput').required = true;
+        document.getElementById('passwordInput').placeholder = 'Sua senha';
         form.reset();
         modal.classList.add('active');
-        loadUnitsForCheckboxes(); // Regular load (availables only)
+        loadUnitsForCheckboxes();
     };
 
     closeModal.onclick = () => modal.classList.remove('active');
@@ -38,14 +37,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const selectedUnits = Array.from(document.querySelectorAll('#unitsCheckboxList input[type="checkbox"]:checked'))
             .map(cb => parseInt(cb.value));
 
+        if (selectedUnits.length === 0) {
+            alert('Por favor, selecione pelo menos uma unidade.');
+            return;
+        }
+
         const data = {
             name: document.getElementById('nameInput').value,
             email: document.getElementById('emailInput').value,
-            password: document.getElementById('passwordInput').value || undefined, // Send only if changed
+            password: document.getElementById('passwordInput').value || undefined,
             unitIds: selectedUnits
         };
 
-        const url = editingId ? `/api/coordinators/${editingId}` : '/api/coordinators';
+        const url = editingId ? `/api/instructors/${editingId}` : '/api/instructors';
         const method = editingId ? 'PUT' : 'POST';
 
         try {
@@ -56,13 +60,13 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (response.ok) {
-                alert(editingId ? 'Coordenador atualizado com sucesso!' : 'Coordenador cadastrado com sucesso!');
+                alert(editingId ? 'Instrutor atualizado com sucesso!' : 'Instrutor cadastrado com sucesso!');
                 modal.classList.remove('active');
                 form.reset();
-                loadCoordinators();
+                loadInstructors();
             } else {
                 const error = await response.json();
-                alert('Erro ao processar coordenador: ' + (error.error || 'Erro desconhecido'));
+                alert('Erro ao processar instrutor: ' + (error.error || 'Erro desconhecido'));
             }
         } catch (err) {
             console.error(err);
@@ -70,52 +74,50 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Global edit function
-    window.editCoordinator = async (c) => {
-        editingId = c.id;
-        document.getElementById('modalTitle').textContent = 'Editar Coordenador';
+    window.editInstructor = async (instrutor) => {
+        editingId = instrutor.id;
+        document.getElementById('modalTitle').textContent = 'Editar Instrutor';
         document.getElementById('submitBtn').textContent = 'Salvar Alterações';
-        document.getElementById('passwordInput').required = false; // Optional on edit
+        document.getElementById('passwordInput').required = false;
         document.getElementById('passwordInput').placeholder = 'Deixe em branco para não alterar';
 
-        document.getElementById('nameInput').value = c.usuario;
-        document.getElementById('emailInput').value = c.email;
+        document.getElementById('nameInput').value = instrutor.usuario;
+        document.getElementById('emailInput').value = instrutor.email;
         document.getElementById('passwordInput').value = '';
 
-        // Get currently assigned unit names to help identification
-        const assignedUnitNames = c.unidades ? c.unidades.split(',') : [];
+        const assignedUnitNames = instrutor.unidades ? instrutor.unidades.split(',') : [];
         await loadUnitsForCheckboxes(assignedUnitNames);
 
         modal.classList.add('active');
     };
 
-    // Logout
     document.getElementById('logoutBtn').addEventListener('click', () => {
         localStorage.removeItem('user');
         window.location.href = 'login.html';
     });
 });
 
-async function loadCoordinators() {
-    const grid = document.getElementById('coordinatorsGrid');
+async function loadInstructors() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    const grid = document.getElementById('instructorsGrid');
     try {
-        const response = await fetch('/api/coordinators');
-        const coordinators = await response.json();
+        const response = await fetch(`/api/instructors?coordinatorId=${user.id}`);
+        const instructors = await response.json();
 
-        grid.innerHTML = coordinators.map(c => `
+        grid.innerHTML = instructors.map(i => `
             <div class="entry-card">
                 <div class="entry-header">
-                    <span class="entry-class">${c.usuario}</span>
-                    <button class="btn-edit-icon" onclick='editCoordinator(${JSON.stringify(c)})'>
+                    <span class="entry-class">${i.usuario}</span>
+                    <button class="btn-edit-icon" onclick='editInstructor(${JSON.stringify(i)})'>
                         <i data-lucide="edit-3"></i>
                     </button>
                 </div>
                 <div class="entry-body">
-                    <p><strong>Email:</strong> ${c.email}</p>
-                    <p><strong>Unidades:</strong> ${c.unidades || 'Nenhuma vinculada'}</p>
+                    <p><strong>Email:</strong> ${i.email}</p>
+                    <p><strong>Unidades:</strong> ${i.unidades || 'Nenhuma vinculada'}</p>
                 </div>
             </div>
-        `).join('') || '<p class="empty-state">Nenhum coordenador cadastrado.</p>';
+        `).join('') || '<p class="empty-state">Nenhum instrutor cadastrado.</p>';
 
         lucide.createIcons();
     } catch (err) {
@@ -124,29 +126,19 @@ async function loadCoordinators() {
 }
 
 async function loadUnitsForCheckboxes(assignedUnitNames = []) {
+    const user = JSON.parse(localStorage.getItem('user'));
     const container = document.getElementById('unitsCheckboxList');
     try {
-        const response = await fetch('/api/unidades');
+        // Fetch only units managed by THIS coordinator
+        const response = await fetch(`/api/coordinators/${user.id}/units`);
         const unidades = await response.json();
 
         if (unidades.length === 0) {
-            container.innerHTML = '<p class="empty-state">Nenhuma unidade cadastrada ainda.</p>';
+            container.innerHTML = '<p class="empty-state">Você não possui unidades vinculadas.</p>';
             return;
         }
 
-        // When editing, show ALL units, but only available ones or the ones ALREADY assigned to THIS coordinator
-        const visibleUnits = unidades.filter(u => {
-            if (!u.esta_ocupada) return true;
-            // If it IS occupied, only show if it matches one of the assigned names
-            return assignedUnitNames.includes(u.escola);
-        });
-
-        if (visibleUnits.length === 0) {
-            container.innerHTML = '<p class="empty-state">Nenhuma unidade disponível no momento.</p>';
-            return;
-        }
-
-        container.innerHTML = visibleUnits.map(u => `
+        container.innerHTML = unidades.map(u => `
             <label class="checkbox-label">
                 <input type="checkbox" value="${u.id}" ${assignedUnitNames.includes(u.escola) ? 'checked' : ''}>
                 <span>${u.escola} (${u.cidade})</span>
@@ -154,6 +146,6 @@ async function loadUnitsForCheckboxes(assignedUnitNames = []) {
         `).join('');
     } catch (err) {
         console.error(err);
-        container.innerHTML = '<p class="empty-state">Erro ao carregar unidades.</p>';
+        container.innerHTML = '<p class="empty-state">Erro ao carregar suas unidades.</p>';
     }
 }
